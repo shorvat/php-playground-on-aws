@@ -1,0 +1,50 @@
+body {
+    overflow: hidden;
+}
+
+#editor {
+    margin: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.responseContent {
+    background: #eee;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.responseContent textarea {
+    width: 100%;
+    max-height: 500px;
+    min-height: 200px;
+}
+
+.responseTitle {
+    float: left;
+    font-weight: bold; 
+    text-decoration: underline;
+}
+.responseExecution {
+    float: right;
+    font-weight: bold; 
+}
+
+.resonseHeader {
+    padding: 10px;
+    background: #ddd;
+    height: 42px;
+}
+
+.summary {
+    position: absolute; 
+    bottom: 10px;
+    right: 10px; 
+    padding: 5px 20px 20px 20px; 
+    color: white; 
+    background: #222;
+}
+
