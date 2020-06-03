@@ -10,7 +10,7 @@ You may learn:
 - How to build a binary to run it against AWS Lambda environment
 - How to call a AWS Lambda function from JavaScript AWS SDK
 
-To make at least some value out of this, we will set-up a basic local web-based PHP editor and a AWS Lambda PHP backend to execute the code we will enter into web-based editor. Basically, we will set-up a private PHP playground environment.
+To make at least some value out of this, we will set-up a basic local web-based PHP editor and a AWS Lambda PHP backend to execute the code we will enter into the web-based editor. Basically, we will set-up a private PHP playground environment.
 
 PHP8 is about to be released in few (4 or 5) months and it will support JIT.
 
@@ -22,13 +22,13 @@ Let's get our hands dirty.
 
 ## Initial notes
 
-I've already built PHP8 and PHP5 binaries and I have put it into github repository (```php-8-bin``` and ```php-5-bin```). If you would like to build it yourself just folow the instrustions in section ```Build your own PHP binary to execute it on AWS Lambda envirnoment```.
+I've already built PHP8 and PHP5 binaries and I have put it into github repository (```php-8-bin``` and ```php-5-bin```). If you would like to build it yourself just follow the instructions in section ```Build your own PHP binary to execute it on AWS Lambda environment```.
 
 ## Pre-requirements
 
 - Git :)
 - AWS CLI (installed and configured) [Installation guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) [Configuration guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) 
-- A basic knowledge of AWS cloud services 
+- Basic knowledge of AWS cloud services 
 
 ## Deployment: AWS Lambda 
 
@@ -38,14 +38,14 @@ Cd into ```lambda``` directory
 cd lambda
 ```
 
-Step 1: Make binaries executable and crete a lambda package (zip)
+Step 1: Make binaries executable and create a lambda package (zip)
 
 <pre><code>sudo chmod -x php-8-bin/bin/php
 sudo chmod -x php-5-bin/bin/php
 zip <b style="color: green">package.zip</b> php-5-bin/* php-8-bin/* php.js 
 </pre></code>
 
-Step 2: Lambda stores logs in AWS CloudWatch service and it needs a parmission to be able to do so. We need to create a IAM role and attach the proper permission to it.
+Step 2: Lambda stores logs in AWS CloudWatch service and it needs a permission to be able to do so. We need to create an IAM role and attach the proper permission to it.
 
 ```
 aws iam create-role --role-name RoleLambdaBasicExecute --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
@@ -75,7 +75,7 @@ aws iam create-policy --policy-name PolicyExecuteLambda --policy-document '{"Ver
 aws iam attach-user-policy --user-name UserPHPPlayground --policy-arn arn:aws:iam::<b style="color: red">[your-aws-account-id-goes-here]</b>:policy/PolicyExecuteLambda
 </pre></code>
 
-Step 5: Now, we will create an access key. Save the output. We will use those two values in web-based PHP editor: ```AccessKeyId``` and ```SecretAccessKey```
+Step 5: Now, we will create an access key. Save the output. We will use those two values in the web-based PHP editor: ```AccessKeyId``` and ```SecretAccessKey```
 
 ```
 aws iam create-access-key --user-name UserPHPPlayground
@@ -100,7 +100,7 @@ aws iam delete-access-key --user-name UserPHPPlayground --access-key-id <b style
 aws iam delete-user --user-name UserPHPPlayground
 </pre></code>
 
-## Build your own PHP binary to execute it on AWS Lambda envirnoment
+## Build your own PHP binary to execute it on AWS Lambda environment
 
 Spin-up a AMI Linux 2 instance. Pick ```t2.medium``` as the EC2 instance type to have two cores and 4 GB of memory for faster PHP compilation times.
 
@@ -129,7 +129,7 @@ You can quickly confirm that PHP is working by running the following command
 ```
 /home/ec2-user/php-8-bin/php -v
 ```
-Step 5: Among other shared libraries PHP also need ```libcrypt.so.1``` to be able to run. This particular library is missing in AWS Lambda ```nodejs12.x``` runtime so we need to include it in our final lambda package.
+Step 5: Among other shared libraries PHP also needs ```libcrypt.so.1``` to be able to run. This particular library is missing in AWS Lambda ```nodejs12.x``` runtime so we need to include it in our final lambda package.
 ```
 cp /lib64/libcrypt.so.1 /home/ec2-user/php-8-bin/lib/libcrypt.so.1
 ```
@@ -154,7 +154,7 @@ echo "opcache.jit_buffer_size=32M" >> lib/php.ini
 echo "opcache.jit=1235" >> lib/php.ini
 ```
 
-That's it. You are ready to transfere the folder ```php-8-bin``` to your machine and put it into AWS Lambda project folder.
+That's it. You are ready to transfer the folder ```php-8-bin``` to your machine and put it into AWS Lambda project folder.
 
 ## Resources
 
